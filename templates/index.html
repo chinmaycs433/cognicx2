@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Cognicx AI Email Summarizer
+</title>
+
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="header">
+
+<h1>
+🚀 Cognicx AI Solutions
+</h1>
+
+<h2>
+Email Intelligence Assistant
+</h2>
+
+<p>
+Summarize emails, extract tasks and identify priorities using AI
+</p>
+
+</div>
+
+
+
+<div class="upload-section">
+
+
+<h3>
+📂 Upload Email File
+</h3>
+
+
+<input 
+type="file"
+id="file"
+accept=".txt"
+>
+
+
+<p>
+OR paste your email below
+</p>
+
+
+<textarea 
+id="email"
+placeholder="Paste email content here..."
+></textarea>
+
+
+
+<button onclick="summarizeEmail()">
+
+✨ Analyze Email
+
+</button>
+
+
+</div>
+
+
+
+
+<div id="loading" class="loading">
+
+🤖 Cognicx AI is analyzing your email...
+
+</div>
+
+
+
+
+<div class="results" id="results">
+
+
+<h2>
+AI Analysis
+</h2>
+
+
+
+<div class="card summary">
+
+<h3>
+📌 Summary
+</h3>
+
+<p id="summary">
+Waiting for analysis...
+</p>
+
+</div>
+
+
+
+<div class="card action">
+
+<h3>
+✅ Action Items
+</h3>
+
+<p id="actions">
+Waiting for analysis...
+</p>
+
+
+</div>
+
+
+
+
+<div class="card priority">
+
+
+<h3>
+⚡ Priority
+</h3>
+
+
+<p id="priority">
+Waiting...
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script src="/static/script.js"></script>
+
+
+</body>
+
+
+</html>
