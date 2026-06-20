@@ -2,7 +2,10 @@ import os
 from groq import Groq
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=".env")
+# This loads the .env file locally while you are testing on your PC
+load_dotenv() 
+
+# This grabs the key from the system environment
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 def get_email_intelligence(prompt_text):

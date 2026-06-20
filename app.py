@@ -31,12 +31,11 @@ def summarize():
         text = data.get('text', '').strip()
         lang = data.get('language', 'English')
         
-        # PROMPT FIX: Forces Priority to be English only, maintaining CSS colors
-        prompt = f"""Analyze this email and return a JSON object with these keys:
+        prompt = f"""Analyze this email and return a JSON object with keys:
         "summary" (1-2 sentences in {lang}), 
-        "category", 
-        "priority" (MUST be one of: High, Medium, Low), 
-        "sentiment". 
+        "category" (translated to {lang}), 
+        "priority" (MUST be one of: High, Medium, Low - translate terms to {lang}), 
+        "sentiment" (translated to {lang}). 
         Email: {text}"""
         
         raw_res = get_email_intelligence(prompt)
