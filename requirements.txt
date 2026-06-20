@@ -1,5 +1,5 @@
 flask
-gunicorn
-pypdf
-openai
+flask-sqlalchemy
+flask-cors
+groq
 python-dotenv
