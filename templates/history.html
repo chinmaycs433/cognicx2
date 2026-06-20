@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis History</h1>
+        <a href="/">Back to Home</a>
+        <hr>
+        
+        {% for email in emails %}
+            <div class="card sentiment-{{ email.sentiment }}">
+                <p><strong>Priority:</strong> {{ email.priority }}</p>
+                <p><strong>Category:</strong> {{ email.category }}</p>
+                <p><strong>Sentiment:</strong> {{ email.sentiment }}</p>
+                <p><strong>Summary:</strong> {{ email.summary }}</p>
+                <small><em>Analyzed at: {{ email.timestamp.strftime('%Y-%m-%d %H:%M') }}</em></small>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

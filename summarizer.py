@@ -1,105 +1,14 @@
-def summarize_email(email):
+import os
+from groq import Groq
+from dotenv import load_dotenv
 
-    if not email.strip():
-        return """
-📌 SUMMARY
+load_dotenv(dotenv_path=".env")
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-No email content provided.
-
-
-✅ ACTION ITEMS
-
-None
-
-
-⚡ PRIORITY
-
-LOW
-"""
-
-
-    email = email.replace("\n", " ")
-
-    sentences = email.split(".")
-
-
-    summary = []
-    actions = []
-
-
-    for sentence in sentences:
-
-        sentence = sentence.strip()
-
-        if len(sentence) > 10:
-
-            summary.append(sentence)
-
-
-            if any(word in sentence.lower() for word in [
-                "must",
-                "need",
-                "submit",
-                "complete",
-                "should",
-                "required"
-            ]):
-
-                actions.append(sentence)
-
-
-
-    result = "📌 SUMMARY\n\n"
-
-
-    for item in summary[:3]:
-
-        result += "• " + item + ".\n"
-
-
-
-    result += "\n\n✅ ACTION ITEMS\n\n"
-
-
-
-    if actions:
-
-        for item in actions:
-
-            result += "• " + item + ".\n"
-
-    else:
-
-        result += "• No action items detected\n"
-
-
-
-    result += "\n\n⚡ PRIORITY\n\n"
-
-
-
-    if any(word in email.lower() for word in [
-        "urgent",
-        "asap",
-        "immediately",
-        "critical"
-    ]):
-
-        result += "HIGH"
-
-
-    elif any(word in email.lower() for word in [
-        "important",
-        "soon"
-    ]):
-
-        result += "MEDIUM"
-
-
-    else:
-
-        result += "NORMAL"
-
-
-
-    return result
+def get_email_intelligence(prompt_text):
+    chat_completion = client.chat.completions.create(
+        messages=[{"role": "user", "content": prompt_text}],
+        model="llama-3.3-70b-versatile",
+        response_format={"type": "json_object"}
+    )
+    return chat_completion.choices[0].message.content
