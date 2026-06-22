@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-// Replace your old API_BASE_URL line with this exactly:
+// Dynamically points to your backend
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://127.0.0.1:5000' 
     : 'https://cognicxemailai.onrender.com';
@@ -16,7 +16,12 @@ function App() {
 
   const languages = ['English', 'Hindi', 'Spanish', 'French', 'German', 'Arabic', 'Chinese', 'Portuguese', 'Japanese', 'Russian'];
 
-  useEffect(() => { document.documentElement.setAttribute('data-theme', theme); }, [theme]);
+  // UPDATED: Now sets both theme AND language attributes on the root element
+  useEffect(() => { 
+    document.documentElement.setAttribute('data-theme', theme); 
+    document.documentElement.setAttribute('data-lang', lang);
+  }, [theme, lang]);
+
   useEffect(() => { fetchHistory(); }, []);
 
   const fetchHistory = async () => {
@@ -59,7 +64,7 @@ function App() {
         <div className="lang-selector">
           <label htmlFor="lang-select">Output Language: </label>
           <select id="lang-select" value={lang} onChange={(e) => setLang(e.target.value)}>
-            {languages.map(l => <option key={l}>{l}</option>)}
+            {languages.map(l => <option key={l} value={l}>{l}</option>)}
           </select>
         </div>
 
@@ -71,7 +76,7 @@ function App() {
 
       {result && (
         <div className={`card priority-${result.priority}`}>
-          <h3>Summary:</h3>
+          <h3>Summary ({lang}):</h3>
           <p>{result.summary}</p>
           <p><strong>Category:</strong> {result.category} | <strong>Priority:</strong> {result.priority} | <strong>Sentiment:</strong> {result.sentiment}</p>
           <button className="copy-btn" onClick={() => navigator.clipboard.writeText(result.summary)}>Copy Summary</button>
