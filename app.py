@@ -24,6 +24,10 @@ class EmailRecord(db.Model):
 with app.app_context():
     db.create_all()
 
+@app.route('/')
+def home():
+    return jsonify({"status": "API is online"})
+
 @app.route('/summarize', methods=['POST'])
 def summarize():
     try:

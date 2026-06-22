@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const API_BASE_URL = 'http://127.0.0.1:5000';
+// Replace your old API_BASE_URL line with this exactly:
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://127.0.0.1:5000' 
+    : 'https://cognicxemailai.onrender.com';
 
 function App() {
   const [theme, setTheme] = useState('dark');
