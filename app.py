@@ -64,7 +64,17 @@ def summarize():
 @app.route('/history', methods=['GET'])
 def history():
     emails = EmailRecord.query.order_by(db.desc(EmailRecord.id)).all()
-    return jsonify([{'id': e.id, 'summary': e.summary, 'category': e.category, 'priority': e.priority, 'sentiment': e.sentiment} for e in emails])
+    # Updated: Now includes 'language' field for the frontend to use
+    return jsonify([
+        {
+            'id': e.id, 
+            'summary': e.summary, 
+            'category': e.category, 
+            'priority': e.priority, 
+            'sentiment': e.sentiment, 
+            'language': e.language
+        } for e in emails
+    ])
 
 @app.route('/delete/<int:id>', methods=['DELETE'])
 def delete_email(id):
