@@ -5,31 +5,13 @@
   --card: #f4f4f4; 
   --btn: #007bff; 
   --border: #ddd;
-  --accent: #007bff; /* Added accent for language highlights */
 }
-
 [data-theme='dark'] { 
   --bg: #121212; 
   --text: #e0e0e0; 
   --card: #1e1e1e; 
   --btn: #444; 
   --border: #444;
-}
-
-/* --- LANGUAGE SPECIFIC STYLES --- */
-/* You can change these colors to whatever you prefer */
-[data-lang='Hindi'] { --accent: #ff9933; }      /* Saffron */
-[data-lang='Spanish'] { --accent: #ffc400; }    /* Yellow */
-[data-lang='French'] { --accent: #0055a4; }     /* Blue */
-[data-lang='German'] { --accent: #000000; }     /* Black */
-
-/* Apply the accent color to the container border based on language */
-.container { 
-    max-width: 800px; 
-    margin: auto; 
-    border-top: 5px solid var(--accent); 
-    padding: 20px;
-    transition: 0.3s;
 }
 
 body { 
@@ -41,58 +23,40 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
+.container { max-width: 800px; margin: auto; }
+
 h1 { text-align: center; }
 
-/* Integrated Top Bar */
-.top-bar { 
-  display: flex; 
-  gap: 10px; 
-  margin-bottom: 20px; 
-  align-items: center; 
-  flex-wrap: wrap;
-}
+.top-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
 
-/* Form Elements */
 textarea { 
-  width: 100%; 
-  height: 150px; 
-  background: var(--card); 
-  color: var(--text); 
-  border: 1px solid var(--border); 
-  padding: 15px; 
-  border-radius: 8px; 
-  box-sizing: border-box; 
-  resize: vertical;
+  width: 100%; height: 150px; background: var(--card); color: var(--text); 
+  border: 1px solid var(--border); padding: 15px; border-radius: 8px; 
+  box-sizing: border-box; resize: vertical;
 }
 
 button, select, .search-input { 
-  padding: 10px; 
-  border: 1px solid var(--border); 
-  border-radius: 5px; 
-  background: var(--card); 
-  color: var(--text); 
-  cursor: pointer; 
+  padding: 10px; border: 1px solid var(--border); border-radius: 5px; 
+  background: var(--card); color: var(--text); cursor: pointer; 
 }
 
-.search-input { 
-  flex-grow: 1; 
-  min-width: 200px; 
-}
-
+.search-input { flex-grow: 1; min-width: 200px; }
 .theme-btn { background: var(--btn); color: #fff; font-weight: bold; }
 
-/* Cards */
 .card { 
-  padding: 20px; 
-  margin: 15px 0; 
-  border-radius: 8px; 
-  background: var(--card); 
-  border: 1px solid var(--border);
+  padding: 20px; margin: 15px 0; border-radius: 8px; 
+  background: var(--card); border: 1px solid var(--border);
 }
 
 .priority-High { border-left: 10px solid #dc3545; }
 .priority-Medium { border-left: 10px solid #ffc107; }
 .priority-Low { border-left: 10px solid #28a745; }
 
-.copy-btn { background: var(--accent); color: white; border: none; }
+/* Language-specific color accents for cards */
+.card[data-lang="Hindi"] { border-right: 10px solid #ff9933; }
+.card[data-lang="Spanish"] { border-right: 10px solid #ffc400; }
+.card[data-lang="French"] { border-right: 10px solid #0055a4; }
+.card[data-lang="German"] { border-right: 10px solid #000000; }
+
+.copy-btn { background: #007bff; color: white; border: none; }
 .delete-btn { background: #6c757d; color: white; border: none; }
