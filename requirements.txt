@@ -3,7 +3,4 @@ flask-sqlalchemy
 flask-cors
 groq
 python-dotenv
-HEAD
 gunicorn
-gunicorn
- 305fa5237fd4a8ae198bcd24b99db8da594c8a01
