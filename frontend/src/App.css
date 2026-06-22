@@ -27,36 +27,66 @@ body {
 
 h1 { text-align: center; }
 
-.top-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+/* Integrated Top Bar */
+.top-bar { 
+  display: flex; 
+  gap: 10px; 
+  margin-bottom: 20px; 
+  align-items: center; 
+  flex-wrap: wrap; 
+}
 
+/* Form Elements */
 textarea { 
-  width: 100%; height: 150px; background: var(--card); color: var(--text); 
-  border: 1px solid var(--border); padding: 15px; border-radius: 8px; 
-  box-sizing: border-box; resize: vertical;
+  width: 100%; 
+  height: 150px; 
+  background: var(--card); 
+  color: var(--text); 
+  border: 1px solid var(--border); 
+  padding: 15px; 
+  border-radius: 8px; 
+  box-sizing: border-box; 
+  resize: vertical;
 }
 
 button, select, .search-input { 
-  padding: 10px; border: 1px solid var(--border); border-radius: 5px; 
-  background: var(--card); color: var(--text); cursor: pointer; 
+  padding: 10px; 
+  border: 1px solid var(--border); 
+  border-radius: 5px; 
+  background: var(--card); 
+  color: var(--text); 
+  cursor: pointer; 
 }
 
-.search-input { flex-grow: 1; min-width: 200px; }
+.search-input { 
+  flex-grow: 1; 
+  min-width: 200px; 
+}
+
 .theme-btn { background: var(--btn); color: #fff; font-weight: bold; }
 
+/* Cards */
 .card { 
-  padding: 20px; margin: 15px 0; border-radius: 8px; 
-  background: var(--card); border: 1px solid var(--border);
+  padding: 20px; 
+  margin: 15px 0; 
+  border-radius: 8px; 
+  background: var(--card); 
+  border: 1px solid var(--border);
+  position: relative; /* Added to help with layout */
 }
 
+/* Priority Indicator (Left Border) */
 .priority-High { border-left: 10px solid #dc3545; }
 .priority-Medium { border-left: 10px solid #ffc107; }
 .priority-Low { border-left: 10px solid #28a745; }
 
-/* Language-specific color accents for cards */
+/* Language Indicators (Right Border) */
 .card[data-lang="Hindi"] { border-right: 10px solid #ff9933; }
 .card[data-lang="Spanish"] { border-right: 10px solid #ffc400; }
 .card[data-lang="French"] { border-right: 10px solid #0055a4; }
 .card[data-lang="German"] { border-right: 10px solid #000000; }
+.card[data-lang="English"] { border-right: 10px solid #ffffff; }
 
+/* Buttons */
 .copy-btn { background: #007bff; color: white; border: none; }
 .delete-btn { background: #6c757d; color: white; border: none; }

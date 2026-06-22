@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+// Replace your old API_BASE_URL line with this exactly:
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://127.0.0.1:5000' 
     : 'https://cognicxemailai.onrender.com';
@@ -69,7 +70,7 @@ function App() {
       <button onClick={handleSummarize} style={{width:'100%', marginTop:'10px', padding:'10px'}}>SUMMARIZE</button>
 
       {result && (
-        <div className={`card priority-${result.priority}`}>
+        <div className={`card priority-${result.priority}`} data-lang={result.language}>
           <h3>Summary:</h3>
           <p>{result.summary}</p>
           <p><strong>Category:</strong> {result.category} | <strong>Priority:</strong> {result.priority} | <strong>Sentiment:</strong> {result.sentiment}</p>
