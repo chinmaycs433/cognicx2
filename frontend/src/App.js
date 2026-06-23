@@ -11,7 +11,7 @@ function App() {
   const [lang, setLang] = useState('English');
   const [result, setResult] = useState(null);
   
-  // Initialize history from localStorage (Private)
+  // Initialize history from localStorage (Private, Browser-bound)
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem('myEmailHistory');
     return saved ? JSON.parse(saved) : [];
@@ -20,7 +20,7 @@ function App() {
 
   const languages = ['English', 'Hindi', 'Spanish', 'French', 'German', 'Arabic', 'Chinese', 'Portuguese', 'Japanese', 'Russian'];
 
-  // Save to localStorage whenever history changes
+  // Sync to localStorage whenever history changes
   useEffect(() => {
     localStorage.setItem('myEmailHistory', JSON.stringify(history));
   }, [history]);
@@ -37,16 +37,14 @@ function App() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       
-      // Add new result to LOCAL history only
       const newEntry = { ...data, id: Date.now(), language: lang };
       setHistory(prev => [newEntry, ...prev]);
       setResult(data);
     } catch (e) { alert("Backend Error: " + e.message); }
   };
 
-  const deleteEmail = (id) => {
-    setHistory(prev => prev.filter(h => h.id !== id));
-  };
+  const deleteEmail = (id) => setHistory(prev => prev.filter(h => h.id !== id));
+  const deleteAll = () => { if(window.confirm("Delete all history?")) setHistory([]); };
 
   const normalizePriority = (p) => {
     const s = String(p).toLowerCase();
@@ -55,7 +53,12 @@ function App() {
     return 'Low';
   };
 
-  const filteredHistory = history.filter(h => h.category && h.category.toLowerCase().includes(filter.toLowerCase()));
+  // Improved search: Filter by Category, Sentiment, OR Priority
+  const filteredHistory = history.filter(h => 
+    (h.category && h.category.toLowerCase().includes(filter.toLowerCase())) ||
+    (h.sentiment && h.sentiment.toLowerCase().includes(filter.toLowerCase())) ||
+    (h.priority && h.priority.toLowerCase().includes(filter.toLowerCase()))
+  );
 
   return (
     <div className="container">
@@ -63,10 +66,21 @@ function App() {
       
       <div className="top-bar">
         <button className="theme-btn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>Toggle Theme</button>
-        <select value={lang} onChange={(e) => setLang(e.target.value)}>
-          {languages.map(l => <option key={l}>{l}</option>)}
-        </select>
-        <input className="search-input" placeholder="Search categories..." value={filter} onChange={(e) => setFilter(e.target.value)} />
+        
+        <div className="lang-wrapper">
+          <label>Output Language: </label>
+          <select value={lang} onChange={(e) => setLang(e.target.value)}>
+            {languages.map(l => <option key={l}>{l}</option>)}
+          </select>
+        </div>
+
+        <input 
+          className="search-input" 
+          placeholder="Search Category, Sentiment, or Priority..." 
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value)} 
+        />
+        <button className="delete-btn" onClick={deleteAll} style={{background:'#dc3545'}}>Delete All</button>
       </div>
 
       <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste email..." />
