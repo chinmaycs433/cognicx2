@@ -72,7 +72,7 @@ button, select, .search-input {
   border-radius: 8px; 
   background: var(--card); 
   border: 1px solid var(--border);
-  position: relative; /* Added to help with layout */
+  position: relative;
 }
 
 /* Priority Indicator (Left Border) */
@@ -80,13 +80,18 @@ button, select, .search-input {
 .priority-Medium { border-left: 10px solid #ffc107; }
 .priority-Low { border-left: 10px solid #28a745; }
 
-/* Language Indicators (Right Border) */
-.card[data-lang="Hindi"] { border-right: 10px solid #ff9933; }
-.card[data-lang="Spanish"] { border-right: 10px solid #ffc400; }
-.card[data-lang="French"] { border-right: 10px solid #0055a4; }
-.card[data-lang="German"] { border-right: 10px solid #000000; }
-.card[data-lang="English"] { border-right: 10px solid #ffffff; }
+/* Language Indicators (Right Border - Uses *= to match partial strings) */
+.card[data-lang*="Hindi"] { border-right: 10px solid #ff9933 !important; }
+.card[data-lang*="Spanish"] { border-right: 10px solid #ffc400 !important; }
+.card[data-lang*="French"] { border-right: 10px solid #0055a4 !important; }
+.card[data-lang*="German"], .card[data-lang*="Deutsch"] { border-right: 10px solid #000000 !important; }
+.card[data-lang*="English"] { border-right: 10px solid #ffffff !important; }
+.card[data-lang*="Arabic"] { border-right: 10px solid #00754a !important; }
+.card[data-lang*="Chinese"] { border-right: 10px solid #de2910 !important; }
+.card[data-lang*="Portuguese"] { border-right: 10px solid #009b3a !important; }
+.card[data-lang*="Japanese"] { border-right: 10px solid #bc002d !important; }
+.card[data-lang*="Russian"] { border-right: 10px solid #0039a6 !important; }
 
 /* Buttons */
 .copy-btn { background: #007bff; color: white; border: none; }
-.delete-btn { background: #6c757d; color: white; border: none; }
+.delete-btn { background: #6c757d; color: white; border: none; margin-left: 10px; }
