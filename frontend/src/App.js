@@ -10,30 +10,22 @@ function App() {
   const [text, setText] = useState('');
   const [lang, setLang] = useState('English');
   const [result, setResult] = useState(null);
-  const [history, setHistory] = useState([]);
+  
+  // Initialize history from localStorage (Private)
+  const [history, setHistory] = useState(() => {
+    const saved = localStorage.getItem('myEmailHistory');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [filter, setFilter] = useState('');
 
   const languages = ['English', 'Hindi', 'Spanish', 'French', 'German', 'Arabic', 'Chinese', 'Portuguese', 'Japanese', 'Russian'];
 
-  const normalizePriority = (p) => {
-    const s = String(p).toLowerCase();
-    if (s.includes('high') || s.includes('hoch') || s.includes('élevé') || s.includes('alta') || s.includes('高')) return 'High';
-    if (s.includes('medium') || s.includes('mittel') || s.includes('moyenne') || s.includes('media') || s.includes('中')) return 'Medium';
-    return 'Low';
-  };
+  // Save to localStorage whenever history changes
+  useEffect(() => {
+    localStorage.setItem('myEmailHistory', JSON.stringify(history));
+  }, [history]);
 
   useEffect(() => { document.documentElement.setAttribute('data-theme', theme); }, [theme]);
-  useEffect(() => { fetchHistory(); }, []);
-
-  const fetchHistory = async () => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/history`);
-      if (res.ok) {
-        const data = await res.json();
-        setHistory(data);
-      }
-    } catch (e) { console.error(e); }
-  };
 
   const handleSummarize = async () => {
     try {
@@ -44,16 +36,23 @@ function App() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+      
+      // Add new result to LOCAL history only
+      const newEntry = { ...data, id: Date.now(), language: lang };
+      setHistory(prev => [newEntry, ...prev]);
       setResult(data);
-      fetchHistory();
     } catch (e) { alert("Backend Error: " + e.message); }
   };
 
-  const deleteEmail = async (id) => {
-    try {
-      await fetch(`${API_BASE_URL}/delete/${id}`, { method: 'DELETE' });
-      fetchHistory();
-    } catch (e) { console.error("Error deleting:", e); }
+  const deleteEmail = (id) => {
+    setHistory(prev => prev.filter(h => h.id !== id));
+  };
+
+  const normalizePriority = (p) => {
+    const s = String(p).toLowerCase();
+    if (s.includes('high') || s.includes('hoch') || s.includes('élevé') || s.includes('alta') || s.includes('高')) return 'High';
+    if (s.includes('medium') || s.includes('mittel') || s.includes('moyenne') || s.includes('media') || s.includes('中')) return 'Medium';
+    return 'Low';
   };
 
   const filteredHistory = history.filter(h => h.category && h.category.toLowerCase().includes(filter.toLowerCase()));
@@ -64,14 +63,9 @@ function App() {
       
       <div className="top-bar">
         <button className="theme-btn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>Toggle Theme</button>
-        
-        <div className="lang-selector">
-          <label htmlFor="lang-select">Output Language: </label>
-          <select id="lang-select" value={lang} onChange={(e) => setLang(e.target.value)}>
-            {languages.map(l => <option key={l}>{l}</option>)}
-          </select>
-        </div>
-
+        <select value={lang} onChange={(e) => setLang(e.target.value)}>
+          {languages.map(l => <option key={l}>{l}</option>)}
+        </select>
         <input className="search-input" placeholder="Search categories..." value={filter} onChange={(e) => setFilter(e.target.value)} />
       </div>
 
@@ -89,16 +83,8 @@ function App() {
 
       <h3>History:</h3>
       {filteredHistory.map(h => (
-        <div 
-          key={h.id} 
-          className={`card priority-${normalizePriority(h.priority)}`} 
-          data-lang={h.language || 'English'}
-        >
-          <p>
-            <strong>Category:</strong> {h.category} | 
-            <strong> Priority:</strong> {h.priority} | 
-            <strong> Sentiment:</strong> {h.sentiment}
-          </p>
+        <div key={h.id} className={`card priority-${normalizePriority(h.priority)}`} data-lang={h.language || 'English'}>
+          <p><strong>Category:</strong> {h.category} | <strong>Priority:</strong> {h.priority} | <strong>Sentiment:</strong> {h.sentiment}</p>
           <p>{h.summary}</p>
           <div style={{display:'flex', gap:'10px'}}>
              <button className="copy-btn" onClick={() => navigator.clipboard.writeText(h.summary)}>Copy</button>
